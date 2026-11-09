@@ -819,36 +819,47 @@ h1.level-title {
     justify-content: space-between;
     align-items: center;
     padding: 0 4px;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
+}
+
+.pcb-terminal-row.top-inlet {
+    justify-content: flex-start;
+}
+
+.pcb-terminal-row.bottom-outlet {
+    justify-content: flex-end;
+    margin-top: 6px;
+    margin-bottom: 0;
 }
 
 .pcb-term {
     font-family: var(--font-mono);
-    font-size: 9px;
-    font-weight: 800;
-    padding: 3px 8px;
-    border-radius: 4px;
-    letter-spacing: 1px;
+    font-size: 9.5px;
+    font-weight: 900;
+    padding: 4px 10px;
+    border-radius: 5px;
+    letter-spacing: 0.8px;
 }
 
 .pcb-term.inlet {
-    background: rgba(0, 229, 255, 0.15);
-    border: 1px solid var(--accent-cyan);
+    background: rgba(0, 229, 255, 0.18);
+    border: 1.5px solid var(--accent-cyan);
     color: var(--accent-cyan);
-    box-shadow: 0 0 8px rgba(0, 229, 255, 0.3);
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.35);
 }
 
 .pcb-term.outlet {
-    background: rgba(255, 179, 0, 0.15);
-    border: 1px solid var(--accent-amber);
+    background: rgba(255, 179, 0, 0.18);
+    border: 1.5px solid var(--accent-amber);
     color: var(--accent-amber);
+    box-shadow: 0 0 10px rgba(255, 179, 0, 0.25);
 }
 
 .pcb-term.outlet.active {
-    background: rgba(0, 230, 118, 0.2);
+    background: rgba(0, 230, 118, 0.22);
     border-color: var(--accent-emerald);
     color: var(--accent-emerald);
-    box-shadow: 0 0 10px rgba(0, 230, 118, 0.5);
+    box-shadow: 0 0 14px rgba(0, 230, 118, 0.6);
 }
 
 .rot-circuit-grid {
@@ -891,6 +902,52 @@ h1.level-title {
 
 .rot-tile:active {
     transform: scale(0.92);
+}
+
+/* Explicit Start (Top-Left) & Goal (Bottom-Right) Tile Framing */
+.rot-tile.start-tile {
+    border-color: rgba(0, 229, 255, 0.85);
+    box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.25), 0 0 10px rgba(0, 229, 255, 0.35);
+}
+
+.rot-tile.end-tile {
+    border-color: rgba(255, 179, 0, 0.9);
+    box-shadow: inset 0 0 10px rgba(255, 179, 0, 0.25), 0 0 10px rgba(255, 179, 0, 0.35);
+}
+
+.tile-io-badge {
+    position: absolute;
+    z-index: 3;
+    font-family: var(--font-mono);
+    font-size: 8px;
+    font-weight: 900;
+    letter-spacing: 0.5px;
+    padding: 1px 4px;
+    border-radius: 3px;
+    pointer-events: none;
+    line-height: 1.1;
+}
+
+.tile-io-badge.in-badge {
+    top: 2px;
+    left: 2px;
+    background: rgba(0, 229, 255, 0.92);
+    color: #041016;
+    box-shadow: 0 0 6px rgba(0, 229, 255, 0.8);
+}
+
+.tile-io-badge.out-badge {
+    bottom: 2px;
+    right: 2px;
+    background: rgba(255, 179, 0, 0.95);
+    color: #1a0f00;
+    box-shadow: 0 0 6px rgba(255, 179, 0, 0.8);
+}
+
+.rot-tile.energized .tile-io-badge.out-badge {
+    background: #00e676;
+    color: #021a0c;
+    box-shadow: 0 0 8px #00e676;
 }
 
 /* Passive Connected Sub-circuit (Warm Gold / Amber Connection) */

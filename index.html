@@ -250,11 +250,17 @@
                             <span>FR-4 HIGH-DENSITY BUS</span>
                             <span>REV 4.2 // CIPHER-LOCK</span>
                         </div>
-                        <div class="pcb-terminal-row">
-                            <span class="pcb-term inlet">⚡ 24V DC INLET</span>
-                            <span class="pcb-term outlet" id="l4-term-out">🔒 RELAIS-GATE</span>
+                        <div class="pcb-terminal-row top-inlet">
+                            <span class="pcb-term inlet">⚡ START: EINGANG (LINKS OBEN) ⤵</span>
                         </div>
                         <div id="l4-rot-grid" class="rot-circuit-grid"></div>
+                        <div class="pcb-terminal-row bottom-outlet">
+                            <span class="pcb-term outlet" id="l4-term-out">⤵ 🔒 ZIEL: AUSGANG (RECHTS UNTEN)</span>
+                        </div>
+                    </div>
+
+                    <div style="font-size: 11px; color: var(--accent-cyan); text-align: center; margin: 2px 0 4px 0; letter-spacing: 0.5px;">
+                        🖐️ <strong>Touch / Tap:</strong> Kacheln drehen — von <strong>START (links oben)</strong> nach <strong>ZIEL (rechts unten)</strong> verbinden
                     </div>
 
                     <button class="action-btn btn-amber" onclick="window.puzzleManager.initL4()">

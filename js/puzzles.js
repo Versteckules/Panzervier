@@ -1201,12 +1201,29 @@ class PuzzleManager {
         const grid = document.getElementById('l4-rot-grid');
         if (!grid) return;
 
-        // Micro-components silkscreen & solder mask details
-        const decor = (i) => `
-            <text x="5" y="11" font-size="5" fill="rgba(255,255,255,0.22)" font-family="monospace">U${i+1}</text>
-            <rect x="36" y="4" width="8" height="4" fill="#1e293b" stroke="#64748b" stroke-width="0.5"/>
-            <circle cx="40" cy="44" r="1.5" fill="#f59e0b" opacity="0.4"/>
-        `;
+        // Micro-components silkscreen & fixed I/O terminal pins
+        const decor = (i) => {
+            let ioPins = '';
+            if (i === 0) {
+                ioPins = `
+                    <polygon points="21,0 29,0 25,7" fill="#00e5ff"/>
+                    <polygon points="0,21 0,29 7,25" fill="#00e5ff"/>
+                `;
+            } else if (i === 15) {
+                ioPins = `
+                    <polygon points="21,50 29,50 25,43" fill="#ffb300"/>
+                    <polygon points="50,21 50,29 43,25" fill="#ffb300"/>
+                `;
+            }
+            return `
+                <svg viewBox="0 0 50 50" style="position:absolute; inset:0; pointer-events:none; z-index:2;">
+                    <text x="5" y="11" font-size="5" fill="rgba(255,255,255,0.22)" font-family="monospace">U${i+1}</text>
+                    <rect x="36" y="4" width="8" height="4" fill="#1e293b" stroke="#64748b" stroke-width="0.5"/>
+                    <circle cx="40" cy="44" r="1.5" fill="#f59e0b" opacity="0.4"/>
+                    ${ioPins}
+                </svg>
+            `;
+        };
 
         // 1. Unconnected Metallic ENIG Gold Traces
         const svgs = {
@@ -1283,7 +1300,18 @@ class PuzzleManager {
                 stateClass = 'connected';
             }
 
-            html += `<div class="rot-tile ${stateClass}" onclick="window.puzzleManager.l4RotateTile(${i})">
+            let roleClass = '';
+            let ioBadge = '';
+            if (i === 0) {
+                roleClass = 'start-tile';
+                ioBadge = `<span class="tile-io-badge in-badge">⚡ START</span>`;
+            } else if (i === 15) {
+                roleClass = 'end-tile';
+                ioBadge = `<span class="tile-io-badge out-badge">${this.l4.solved ? 'OFFEN ✓' : 'ZIEL 🔒'}</span>`;
+            }
+
+            html += `<div class="rot-tile ${stateClass} ${roleClass}" onclick="window.puzzleManager.l4RotateTile(${i})">
+                        ${ioBadge}
                         ${decor(i)}
                         <svg viewBox="0 0 50 50" style="transform: rotate(${rotDeg}deg);">${content}</svg>
                      </div>`;
@@ -1391,11 +1419,11 @@ class PuzzleManager {
                 const pCount = powered.size;
                 const cCount = passive.size;
                 if (pCount > 0) {
-                    lcd.innerText = `SIGNALFLUSS: [ ${pCount}/16 AKTIV ] // RELAIS ANSTEUERN`;
+                    lcd.innerText = `SIGNALFLUSS: [ ${pCount}/16 AKTIV ] ➔ ZUM ZIEL (RECHTS UNTEN)`;
                 } else if (cCount > 0) {
-                    lcd.innerText = `TEILKREIS: [ ${cCount} VERBUNDEN ] // MIT EINGANG KOPPELN`;
+                    lcd.innerText = `TEILKREIS: [ ${cCount} VERBUNDEN ] ➔ MIT START (LINKS OBEN) KOPPELN`;
                 } else {
-                    lcd.innerText = "LEITERBAHN UNVOLLSTÄNDIG // KACHELN DREHEN";
+                    lcd.innerText = "START (LINKS OBEN) ➔ ZIEL (RECHTS UNTEN) VERBINDEN";
                 }
             }
         }
