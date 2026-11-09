@@ -2293,7 +2293,7 @@ class PuzzleManager {
                     const y = cy + Math.sin(a) * midR;
 
                     // Check if this symbol is currently aligned under the 12 o'clock needle
-                    const isNeedlePos = (i === 0);
+                    const isNeedlePos = ((i + offset) % 12 === 0);
                     ctx.save();
                     if (isNeedlePos && isTargetMet) {
                         ctx.fillStyle = '#00e676';
@@ -2318,16 +2318,20 @@ class PuzzleManager {
                 ctx.restore();
             };
 
+            const idxOuter = (12 - (this.l8.rOuter % 12)) % 12;
+            const idxMid = (12 - (this.l8.rMid % 12)) % 12;
+            const idxInner = (12 - (this.l8.rInner % 12)) % 12;
+
             // Outer Ring: 114px -> 86px
-            drawCylinder(114, 86, this.l8.rOuter, symbolsOuter, '#f59e0b', (this.l8.rOuter === 2));
+            drawCylinder(114, 86, this.l8.rOuter, symbolsOuter, '#f59e0b', (idxOuter === 2));
             drawBallRace(84, 24);
 
             // Middle Ring: 82px -> 56px
-            drawCylinder(82, 56, this.l8.rMid, symbolsMid, '#00e5ff', (this.l8.rMid === 1));
+            drawCylinder(82, 56, this.l8.rMid, symbolsMid, '#00e5ff', (idxMid === 1));
             drawBallRace(54, 16);
 
             // Inner Ring: 52px -> 26px
-            drawCylinder(52, 26, this.l8.rInner, symbolsInner, '#b388ff', (this.l8.rInner === 6));
+            drawCylinder(52, 26, this.l8.rInner, symbolsInner, '#b388ff', (idxInner === 6));
 
             // Central Heavy Steel Axle Hub with Brass Cap & Socket Screws
             ctx.save();
@@ -2413,7 +2417,15 @@ class PuzzleManager {
     }
 
     checkL8() {
-        const isSolved = (this.l8.rOuter === 2 && this.l8.rMid === 1 && this.l8.rInner === 6);
+        const symbolsOuter = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+        const symbolsMid = ['1','2','3','4','5','6','7','8','9','10','11','12'];
+        const symbolsInner = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+
+        const idxOuter = (12 - (this.l8.rOuter % 12)) % 12;
+        const idxMid = (12 - (this.l8.rMid % 12)) % 12;
+        const idxInner = (12 - (this.l8.rInner % 12)) % 12;
+
+        const isSolved = (idxOuter === 2 && idxMid === 1 && idxInner === 6);
         const lcd = document.getElementById('lcd-8');
 
         if (isSolved && !this.l8.solved) {
@@ -2423,7 +2435,7 @@ class PuzzleManager {
             setTimeout(() => this.app.completeLevel(8, 'L8_ROTORS'), 800);
         } else if (!this.l8.solved) {
             if (lcd) {
-                const syms = `OUT:${this.l8.rOuter} | MID:${this.l8.rMid} | IN:${this.l8.rInner}`;
+                const syms = `OUT:${symbolsOuter[idxOuter]} | MID:${symbolsMid[idxMid]} | IN:${symbolsInner[idxInner]}`;
                 lcd.innerText = `WALZEN-AUSRICHTUNG: [ ${syms} ]`;
             }
         }
