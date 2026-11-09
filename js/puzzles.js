@@ -170,12 +170,23 @@ class PuzzleManager {
             if (this.l1.solved) return;
             e.preventDefault();
             const pos = this.getCanvasPos(canvas, e);
-            if (Math.abs(pos.x - 300) < 55 && Math.abs(pos.y - this.l1.lens1Y) < 50) {
-                this.l1.dragging = 'lens1';
-            } else if (Math.abs(pos.x - 300) < 55 && Math.abs(pos.y - this.l1.lens2Y) < 50) {
-                this.l1.dragging = 'lens2';
-            } else if (Math.hypot(pos.x - 175, pos.y - 132) < 70) {
+            const nearLensX = Math.abs(pos.x - 300) < 52;
+            const dL1 = Math.abs(pos.y - this.l1.lens1Y);
+            const dL2 = Math.abs(pos.y - this.l1.lens2Y);
+
+            if (nearLensX && (dL1 < 48 || dL2 < 48)) {
+                if (dL1 <= dL2) {
+                    this.l1.dragging = 'lens1';
+                    this.l1.dragOffsetY = pos.y - this.l1.lens1Y;
+                } else {
+                    this.l1.dragging = 'lens2';
+                    this.l1.dragOffsetY = pos.y - this.l1.lens2Y;
+                }
+            } else if (Math.hypot(pos.x - 175, pos.y - 132) < 85 || (pos.x >= 95 && pos.x <= 245 && pos.y >= 45 && pos.y <= 220)) {
                 this.l1.dragging = 'prism';
+                this.l1.dragStartX = pos.x;
+                this.l1.dragStartY = pos.y;
+                this.l1.dragStartAngle = this.l1.prismAngle;
             }
             if (this.l1.dragging && canvas.setPointerCapture && e.pointerId !== undefined) {
                 try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
@@ -186,14 +197,41 @@ class PuzzleManager {
             if (!this.l1.dragging || this.l1.solved) return;
             e.preventDefault();
             const pos = this.getCanvasPos(canvas, e);
+            const now = performance.now();
+
             if (this.l1.dragging === 'lens1') {
-                this.l1.lens1Y = Math.max(38, Math.min(227, pos.y));
+                let nextY = Math.max(38, Math.min(124, pos.y - (this.l1.dragOffsetY || 0)));
+                const rad = (this.l1.prismAngle * Math.PI) / 180;
+                const rY = 132.5 + Math.tan(rad - 0.28) * 125;
+                const idealL1 = 96 + (55 - rY) / 0.85;
+                if (Math.abs(nextY - idealL1) < 4.5) nextY = idealL1;
+                if (Math.abs(nextY - this.l1.lens1Y) >= 0.8 && (!this.l1.lastSoundAt || now - this.l1.lastSoundAt > 50)) {
+                    this.sound.playClick(650, 0.015);
+                    this.l1.lastSoundAt = now;
+                }
+                this.l1.lens1Y = nextY;
             } else if (this.l1.dragging === 'lens2') {
-                this.l1.lens2Y = Math.max(38, Math.min(227, pos.y));
+                let nextY = Math.max(140, Math.min(227, pos.y - (this.l1.dragOffsetY || 0)));
+                const rad = (this.l1.prismAngle * Math.PI) / 180;
+                const bY = 132.5 + Math.tan(rad + 0.28) * 125;
+                const idealL2 = 168 + (210 - bY) / 0.85;
+                if (Math.abs(nextY - idealL2) < 4.5) nextY = idealL2;
+                if (Math.abs(nextY - this.l1.lens2Y) >= 0.8 && (!this.l1.lastSoundAt || now - this.l1.lastSoundAt > 50)) {
+                    this.sound.playClick(650, 0.015);
+                    this.l1.lastSoundAt = now;
+                }
+                this.l1.lens2Y = nextY;
             } else if (this.l1.dragging === 'prism') {
-                this.l1.prismAngle = Math.max(-35, Math.min(35, (pos.y - 132) * 0.7));
+                const dy = pos.y - this.l1.dragStartY;
+                const dx = pos.x - this.l1.dragStartX;
+                let nextAngle = Math.max(-35, Math.min(35, this.l1.dragStartAngle + dy * 0.45 + dx * 0.2));
+                if (Math.abs(nextAngle) < 2.2) nextAngle = 0;
+                if (Math.abs(nextAngle - this.l1.prismAngle) >= 0.6 && (!this.l1.lastSoundAt || now - this.l1.lastSoundAt > 50)) {
+                    this.sound.playClick(600, 0.015);
+                    this.l1.lastSoundAt = now;
+                }
+                this.l1.prismAngle = nextAngle;
             }
-            this.sound.playClick(600, 0.015);
         };
 
         const onUp = (e) => {
@@ -309,6 +347,8 @@ class PuzzleManager {
             }
 
             // 5. Precision Optical Crystal Prism (Rotatable)
+            const isPrismActive = (this.l1.dragging === 'prism');
+            const isPrismAligned = Math.abs(this.l1.prismAngle) < 6;
             ctx.save();
             ctx.translate(175, H/2);
             ctx.rotate((this.l1.prismAngle * Math.PI) / 180);
@@ -317,10 +357,15 @@ class PuzzleManager {
             ctx.beginPath();
             ctx.arc(0, 0, 50, 0, Math.PI * 2);
             ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-            ctx.strokeStyle = 'rgba(0, 229, 255, 0.35)';
-            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = isPrismActive ? '#00e5ff' : (isPrismAligned ? '#00e676' : 'rgba(0, 229, 255, 0.35)');
+            ctx.lineWidth = isPrismActive ? 2.5 : 1.5;
+            if (isPrismActive) {
+                ctx.shadowColor = '#00e5ff';
+                ctx.shadowBlur = 14;
+            }
             ctx.fill();
             ctx.stroke();
+            ctx.shadowBlur = 0;
 
             for (let a = 0; a < Math.PI * 2; a += Math.PI / 12) {
                 ctx.beginPath();
