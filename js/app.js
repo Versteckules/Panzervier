@@ -173,7 +173,13 @@ class App {
             coordsEl.innerText = "ENTSCHLÜSSELE SATELLITEN-DATEN...";
             try {
                 const decrypted = await this.crypto.decryptCoordinates(this.tokens);
-                coordsEl.innerText = decrypted;
+                coordsEl.dataset.rawCoords = decrypted;
+                const parts = decrypted.trim().split(/\s{2,}/);
+                if (parts.length === 2) {
+                    coordsEl.innerHTML = `<span class="coord-part">${parts[0]}</span><span class="coord-part">${parts[1]}</span>`;
+                } else {
+                    coordsEl.innerText = decrypted;
+                }
             } catch (e) {
                 console.error("Decryption error:", e);
                 coordsEl.innerText = "FEHLER BEI DER DECHIFFRIERUNG";
@@ -234,7 +240,7 @@ class App {
     copyCoords() {
         const coordsEl = document.getElementById('final-coords');
         if (!coordsEl) return;
-        const text = coordsEl.innerText;
+        const text = coordsEl.dataset.rawCoords || coordsEl.innerText.replace(/\s+/g, ' ').trim();
         const showCopiedFeedback = () => {
             const btn = document.getElementById('btn-copy-coords');
             if (btn) {

@@ -344,6 +344,7 @@ h1.level-title {
     font-size: 13px;
     line-height: 1.6;
     color: #2c333e;
+    margin-top: auto;
 }
 
 .dossier-content p {
@@ -1137,21 +1138,139 @@ h1.level-title {
 
 /* Final Victory Screen */
 #final-screen {
+    width: 100%;
     max-width: 680px;
     text-align: center;
-    padding: 20px 10px;
+    padding: 18px 12px 32px 12px;
+    gap: 14px;
+}
+
+.final-badge {
+    display: inline-block;
+    padding: 5px 16px;
+    border-radius: 20px;
+    border: 2px solid var(--accent-emerald);
+    color: var(--accent-emerald);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: 1.3;
+    box-shadow: 0 0 15px rgba(0, 230, 118, 0.4);
+}
+
+.final-title {
+    font-size: clamp(24px, 5vw, 34px);
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: 1.25;
+    color: var(--accent-emerald);
+    text-shadow: 0 0 22px rgba(0, 230, 118, 0.65);
+    margin: 0;
+}
+
+.final-avatars-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 4px 0;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.final-avatar-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(15, 23, 42, 0.9);
+    border-radius: 30px;
+    padding: 6px 14px 6px 6px;
+    flex-shrink: 0;
+}
+
+.final-avatar-pill.amber-pill {
+    border: 1px solid rgba(245, 158, 11, 0.45);
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.15);
+}
+
+.final-avatar-pill.cyan-pill {
+    border: 1px solid rgba(0, 229, 255, 0.45);
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.15);
+}
+
+.final-avatar-pill img {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    flex-shrink: 0;
+}
+
+.final-avatar-pill.amber-pill img {
+    border: 2px solid var(--accent-amber);
+}
+
+.final-avatar-pill.cyan-pill img {
+    border: 2px solid var(--accent-cyan);
+}
+
+.final-avatar-info {
+    text-align: left;
+    line-height: 1.25;
+}
+
+.final-avatar-role {
+    font-size: 10px;
+    color: #94a3b8;
+    font-family: var(--font-mono);
+}
+
+.final-avatar-name {
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.final-avatar-name.amber-text {
+    color: var(--accent-amber);
+}
+
+.final-avatar-name.cyan-text {
+    color: var(--accent-cyan);
+}
+
+.final-desc {
+    font-size: 14.5px;
+    color: #cbd5e1;
+    max-width: 540px;
+    line-height: 1.55;
+    margin: 0 auto;
 }
 
 .coords-card {
     background: linear-gradient(145deg, #0c1a14, #050e0a);
     border: 2px solid var(--accent-emerald);
     border-radius: 18px;
-    padding: 26px 20px;
-    margin: 22px 0;
-    box-shadow: 0 0 50px rgba(0, 230, 118, 0.45), inset 0 0 35px rgba(0, 230, 118, 0.08);
+    padding: 22px 16px;
+    margin: 6px 0;
+    box-shadow: 0 0 40px rgba(0, 230, 118, 0.35), inset 0 0 35px rgba(0, 230, 118, 0.08);
     width: 100%;
     position: relative;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.coords-label {
+    font-size: 12px;
+    color: var(--accent-emerald);
+    letter-spacing: 2px;
+    line-height: 1.3;
+    font-weight: 800;
 }
 
 .coords-card::before {
@@ -1169,12 +1288,33 @@ h1.level-title {
 
 .coords-text {
     font-family: var(--font-mono);
-    font-size: 26px;
+    font-size: clamp(17px, 4.2vw, 25px);
     font-weight: 900;
     color: #fff;
-    letter-spacing: 2.5px;
-    word-break: break-all;
-    text-shadow: 0 0 14px var(--accent-emerald), 0 0 25px rgba(0, 230, 118, 0.6);
+    letter-spacing: 1.5px;
+    line-height: 1.5;
+    word-break: normal;
+    overflow-wrap: normal;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 6px 20px;
+    width: 100%;
+    text-shadow: 0 0 12px var(--accent-emerald), 0 0 22px rgba(0, 230, 118, 0.5);
+}
+
+.coord-part {
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.final-footer {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #64748b;
+    font-family: var(--font-mono);
+    margin-top: 4px;
 }
 
 /* Reset Modal */
