@@ -70,7 +70,9 @@ body::before {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 18px;
+    flex-wrap: nowrap;
+    gap: 10px;
+    padding: 10px 16px;
     background: rgba(13, 18, 26, 0.92);
     border: 1px solid rgba(0, 229, 255, 0.2);
     border-radius: 12px;
@@ -92,17 +94,34 @@ body::before {
     letter-spacing: 1.5px;
     color: var(--accent-cyan);
     text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .brand-badge span.sub {
     color: var(--accent-amber);
     font-size: 11px;
+    white-space: nowrap;
 }
 
 .status-controls {
     display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 8px;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+}
+
+#status-level {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--accent-amber);
+    margin-right: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    line-height: 1;
 }
 
 .nav-btn {
@@ -110,14 +129,24 @@ body::before {
     border: 1px solid rgba(255, 255, 255, 0.15);
     color: var(--text-primary);
     padding: 6px 12px;
+    min-height: 36px;
     font-size: 12px;
     font-weight: 700;
+    line-height: 1;
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.15s ease;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 5px;
+    white-space: nowrap;
+}
+
+.status-controls .nav-btn {
+    height: 36px;
+    padding: 0 12px;
+    flex-shrink: 0;
 }
 
 .nav-btn:hover {
@@ -1437,19 +1466,52 @@ h1.level-title {
     }
 }
 
+@media (max-width: 760px) {
+    .hide-mobile {
+        display: none !important;
+    }
+
+    .status-bar {
+        padding: 8px 12px;
+        gap: 8px;
+    }
+
+    .status-controls {
+        gap: 6px;
+    }
+
+    .status-controls .nav-btn {
+        padding: 0 10px;
+        min-width: 36px;
+        height: 36px;
+    }
+}
+
+@media (max-width: 560px) {
+    .brand-badge span.sub {
+        display: none;
+    }
+
+    #status-level {
+        font-size: 11.5px;
+        margin-right: 2px;
+    }
+}
+
 @media (max-width: 480px) {
     #app {
         padding: 8px 10px calc(24px + env(safe-area-inset-bottom, 10px)) 10px;
     }
 
     .brand-badge {
-        font-size: 11.5px;
-        letter-spacing: 1px;
+        font-size: 11px;
+        letter-spacing: 0.8px;
     }
 
     .status-controls .nav-btn {
-        padding: 6px 9px;
-        min-height: 38px;
+        padding: 0 8px;
+        min-width: 34px;
+        height: 34px;
     }
 
     .boot-title {
