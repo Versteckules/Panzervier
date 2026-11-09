@@ -1,0 +1,1328 @@
+/* ==========================================================================
+   PANZERKNACKER IV: PROJEKT TASCHANGO1 / DER AUSBRUCH
+   High-Tech Cyber-Vault & Heist Styling (Desktop, Tablet & Mobile Optimized)
+   ========================================================================== */
+
+:root {
+    --bg-dark: #0a0d14;
+    --panel-bg: rgba(18, 24, 34, 0.95);
+    --panel-border: rgba(0, 229, 255, 0.25);
+    --accent-cyan: #00e5ff;
+    --accent-emerald: #00e676;
+    --accent-amber: #ffb300;
+    --accent-crimson: #ff334b;
+    --accent-purple: #b388ff;
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: "Consolas", "Courier New", Courier, monospace;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    background: radial-gradient(circle at 50% 15%, #18283e 0%, #090e17 55%, #030509 100%);
+    font-family: var(--font-ui);
+    color: var(--text-primary);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    overflow-x: hidden;
+}
+
+/* Authentic Cybernetic Blueprint & Atmospheric Depth Grid */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: 
+        linear-gradient(rgba(0, 229, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 255, 0.045) 1px, transparent 1px),
+        radial-gradient(circle at 50% 40%, rgba(0, 229, 255, 0.08) 0%, transparent 65%);
+    background-size: 30px 30px, 30px 30px, 100% 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+#app {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 10px 14px 30px 14px;
+    min-height: 100vh;
+}
+
+/* Header & Status Bar (Hidden on Boot Screen) */
+.status-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 18px;
+    background: rgba(13, 18, 26, 0.92);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    border-radius: 12px;
+    margin-bottom: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+.status-bar.hidden {
+    display: none !important;
+}
+
+.brand-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    color: var(--accent-cyan);
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
+}
+
+.brand-badge span.sub {
+    color: var(--accent-amber);
+    font-size: 11px;
+}
+
+.status-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-btn {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-primary);
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.nav-btn:hover {
+    background: rgba(0, 229, 255, 0.15);
+    border-color: var(--accent-cyan);
+}
+
+.nav-btn.danger {
+    color: #ff6b7b;
+    border-color: rgba(255, 82, 82, 0.3);
+}
+
+.nav-btn.danger:hover {
+    background: rgba(255, 82, 82, 0.2);
+    border-color: var(--accent-crimson);
+}
+
+/* Screen Switcher */
+.screen {
+    display: none !important;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 0.25s ease-out;
+}
+
+.screen.active {
+    display: flex !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Headings */
+h1.level-title {
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin: 0 0 12px 0;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 0 14px rgba(0, 229, 255, 0.5);
+}
+
+.level-meta {
+    font-size: 12px;
+    color: var(--accent-cyan);
+    font-family: var(--font-mono);
+    letter-spacing: 1.5px;
+    margin-bottom: 4px;
+}
+
+/* Two-Column Puzzle Layout */
+.puzzle-layout {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    justify-content: center;
+    align-items: stretch;
+}
+
+/* Vault Machine Panel */
+.vault-panel {
+    flex: 1.2;
+    min-width: 340px;
+    max-width: 530px;
+    background: linear-gradient(165deg, #1b2638, #0e1622 55%, #080c14);
+    border: 2px solid rgba(0, 229, 255, 0.4);
+    border-radius: 16px;
+    padding: 22px 20px;
+    box-shadow: 
+        inset 0 1px 1px rgba(255,255,255,0.3),
+        inset 0 -2px 6px rgba(0,0,0,0.85),
+        0 18px 45px rgba(0, 0, 0, 0.85),
+        0 0 30px rgba(0, 229, 255, 0.12);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    backdrop-filter: blur(14px);
+}
+
+.vault-panel::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 24px; right: 24px; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--accent-cyan), var(--accent-amber), transparent);
+    border-radius: 2px;
+}
+
+/* Authentic Countersunk Machine Hex Bolts in corners */
+.bolt {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #e2e8f0 15%, #64748b 55%, #1e293b 90%);
+    box-shadow: inset 1px 1px 1.5px #fff, 0 2px 4px rgba(0,0,0,0.9);
+    border: 1px solid #0f172a;
+}
+.bolt::after {
+    content: "";
+    position: absolute;
+    top: 6px; left: 2.5px; width: 8px; height: 2px;
+    background: #0f172a;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.3);
+}
+.b-tl { top: 9px; left: 9px; }
+.b-tr { top: 9px; right: 9px; }
+.b-bl { bottom: 9px; left: 9px; }
+.b-br { bottom: 9px; right: 9px; }
+
+/* LCD Terminal Display */
+.lcd-display {
+    width: 100%;
+    background: radial-gradient(circle at 50% 50%, #08170f, #030805);
+    border: 2px solid #1a4d2e;
+    border-radius: 8px;
+    padding: 13px 14px;
+    margin-bottom: 16px;
+    color: var(--accent-emerald);
+    font-family: var(--font-mono);
+    font-size: 19px;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 2px;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.95), 0 0 16px rgba(0, 230, 118, 0.25);
+    text-shadow: 0 0 10px rgba(0, 230, 118, 0.8), 0 0 20px rgba(0, 230, 118, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.lcd-display::after {
+    content: " ";
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
+    background-size: 100% 4px;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.lcd-display.error {
+    color: var(--accent-crimson);
+    border-color: #661822;
+    text-shadow: 0 0 10px rgba(255, 51, 75, 0.9), 0 0 20px rgba(255, 51, 75, 0.5);
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.95), 0 0 16px rgba(255, 51, 75, 0.35);
+}
+
+.lcd-caption {
+    font-size: 10px;
+    color: #52a174;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 5px;
+    font-family: var(--font-ui);
+    font-weight: 900;
+}
+
+/* Dossier Notepad (Right Column - Authentic Classified Espionage PADD) */
+.dossier-paper {
+    flex: 0.9;
+    min-width: 300px;
+    max-width: 410px;
+    background: #faf4e4;
+    color: #1a1e24;
+    border-radius: 4px 18px 6px 14px;
+    padding: 24px 22px;
+    box-shadow: 
+        0 14px 35px rgba(0,0,0,0.65),
+        inset 0 0 65px rgba(200, 175, 120, 0.28);
+    border: 1px solid #ded0ba;
+    position: relative;
+    transform: rotate(0.4deg);
+    display: flex;
+    flex-direction: column;
+}
+
+.dossier-paper::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 45%;
+    transform: translateX(-50%) rotate(-3deg);
+    width: 70px;
+    height: 22px;
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 2px;
+}
+
+.dossier-stamp {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    border: 2px solid #b71c1c;
+    color: #b71c1c;
+    font-size: 10px;
+    font-weight: 900;
+    padding: 3px 7px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transform: rotate(7deg);
+    opacity: 0.92;
+    background: rgba(255, 235, 238, 0.5);
+}
+
+.dossier-title {
+    font-size: 15px;
+    font-weight: 900;
+    color: #7b1fa2;
+    margin: 0 0 12px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #ebd9be;
+    padding-bottom: 5px;
+}
+
+.dossier-content {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #2c333e;
+}
+
+.dossier-content p {
+    margin: 0 0 8px 0;
+}
+
+.dossier-content ul {
+    margin: 0;
+    padding-left: 18px;
+}
+
+.dossier-content li {
+    margin-bottom: 6px;
+}
+
+/* Espionage Radio Seal (Taschango1 -> Versteckules Comm Stamp) */
+.dossier-comm-seal {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 14px;
+    padding-top: 10px;
+    border-top: 1.5px dashed #c4b59d;
+    background: rgba(0, 0, 0, 0.035);
+    border-radius: 6px;
+    padding: 8px 12px;
+}
+
+.comm-stamp-img {
+    height: 44px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+    opacity: 0.92;
+    flex-shrink: 0;
+}
+
+.comm-seal-text {
+    flex: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.seal-header {
+    font-family: var(--font-mono);
+    font-size: 8.5px;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    color: #8b2500;
+    text-transform: uppercase;
+}
+
+.seal-sub {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    color: #1a2332;
+    text-transform: uppercase;
+}
+
+/* Franconian Radio Transmission Button */
+.radio-play-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 44px;
+    margin: 8px 0 12px 0;
+    padding: 10px 14px;
+    background: linear-gradient(145deg, #1e293b, #0f172a);
+    color: #38bdf8;
+    border: 1.5px solid rgba(56, 189, 248, 0.45);
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.radio-play-btn:hover {
+    background: linear-gradient(145deg, #27354a, #131c30);
+    border-color: #38bdf8;
+    color: #ffffff;
+    box-shadow: 0 6px 18px rgba(56, 189, 248, 0.25);
+    transform: translateY(-1px);
+}
+
+.radio-play-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.radio-play-btn .radio-icon {
+    font-size: 16px;
+    line-height: 1;
+}
+
+.radio-play-btn.playing {
+    background: linear-gradient(145deg, #064e3b, #022c22);
+    border-color: #00e676;
+    color: #a7f3d0;
+    box-shadow: 0 0 18px rgba(0, 230, 118, 0.4);
+    animation: radio-pulse 1.6s infinite alternate ease-in-out;
+}
+
+@keyframes radio-pulse {
+    0% {
+        box-shadow: 0 0 8px rgba(0, 230, 118, 0.3);
+        border-color: rgba(0, 230, 118, 0.6);
+    }
+    100% {
+        box-shadow: 0 0 22px rgba(0, 230, 118, 0.7);
+        border-color: #00e676;
+    }
+}
+
+.highlight {
+    background: #fff59d;
+    padding: 1px 4px;
+    border-radius: 2px;
+    font-weight: 700;
+}
+
+/* Action Buttons */
+.action-btn {
+    background: linear-gradient(145deg, #2a3547, #1c2331);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: #fff;
+    padding: 13px 20px;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+    transition: all 0.12s ease;
+    width: 100%;
+    margin-top: 12px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.action-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.6);
+}
+
+.action-btn.btn-green {
+    background: linear-gradient(145deg, #00c853, #008535);
+    border-color: #00e676;
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    box-shadow: 0 4px 15px rgba(0, 230, 118, 0.3);
+}
+
+.action-btn.btn-amber {
+    background: linear-gradient(145deg, #ff8f00, #cc6200);
+    border-color: #ffb300;
+    color: #fff;
+}
+
+.action-btn.btn-red {
+    background: linear-gradient(145deg, #e53935, #ab1815);
+    border-color: #ff5252;
+    color: #fff;
+}
+
+/* ==========================================================================
+   AUTHENTIC FULL-SCREEN BOOT SCREEN (LIKE PARTS 1-3)
+   ========================================================================== */
+#boot-screen {
+    min-height: 85vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 24px 15px;
+}
+
+.boot-title {
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: 3px;
+    color: #ffffff;
+    margin: 0 0 6px 0;
+    text-shadow: 0 0 24px rgba(0, 229, 255, 0.7);
+    text-transform: uppercase;
+}
+
+.boot-subtitle {
+    font-size: 15px;
+    color: var(--accent-amber);
+    font-weight: 800;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    text-shadow: 0 0 12px rgba(255, 179, 0, 0.4);
+}
+
+.boot-story-text {
+    font-size: 14px;
+    color: #94a3b8;
+    max-width: 540px;
+    line-height: 1.6;
+    margin: 0 auto 24px auto;
+    background: rgba(15, 23, 42, 0.65);
+    padding: 14px 18px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.boot-story-text strong {
+    color: #fff;
+}
+
+/* Crew Duo Gallery with High-Tech ID Badges */
+.boot-duo-gallery {
+    display: flex;
+    gap: 22px;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0 24px 0;
+    flex-wrap: wrap;
+}
+
+.boot-duo-card {
+    background: linear-gradient(160deg, #131c2a, #0c121c);
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 175px;
+    position: relative;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.85);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.boot-duo-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Mastermind Card (Taschango1) */
+.boot-duo-card.boss-card {
+    border: 2px solid var(--accent-amber);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.8), 0 0 20px rgba(255, 179, 0, 0.2);
+}
+
+.boot-duo-card.boss-card .card-badge-top {
+    background: var(--accent-amber);
+    color: #0b0f16;
+}
+
+/* Infiltration Agent Card (Versteckules) */
+.boot-duo-card.agent-card {
+    border: 2px solid var(--accent-cyan);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.8), 0 0 20px rgba(0, 229, 255, 0.2);
+}
+
+.boot-duo-card.agent-card .card-badge-top {
+    background: var(--accent-cyan);
+    color: #0b0f16;
+}
+
+.card-badge-top {
+    position: absolute;
+    top: -10px;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 9px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.boot-img-frame {
+    width: 100%;
+    height: 190px;
+    background: #060a0f;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.boot-img-frame::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15) 0px,
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+    pointer-events: none;
+}
+
+.boot-img-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.boot-card-name {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+.boot-card-role {
+    font-size: 10px;
+    color: var(--accent-amber);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 2px;
+}
+
+/* Boot Action Buttons */
+.boot-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 420px;
+    margin-top: 5px;
+}
+
+.boot-btn {
+    width: 100%;
+    padding: 15px 24px;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    touch-action: manipulation;
+}
+
+.boot-btn-start {
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.25), rgba(0, 180, 216, 0.15));
+    border: 2px solid var(--accent-cyan);
+    color: #ffffff;
+    box-shadow: 0 0 25px rgba(0, 229, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    animation: blinkGlow 1.6s infinite;
+}
+
+.boot-btn-start:hover, .boot-btn-start:active {
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.4), rgba(0, 180, 216, 0.3));
+    transform: scale(1.02);
+}
+
+.boot-btn-continue {
+    background: linear-gradient(135deg, rgba(0, 230, 118, 0.25), rgba(0, 168, 85, 0.15));
+    border: 2px solid var(--accent-emerald);
+    color: #ffffff;
+    box-shadow: 0 0 20px rgba(0, 230, 118, 0.35);
+}
+
+.boot-btn-continue:hover, .boot-btn-continue:active {
+    background: linear-gradient(135deg, rgba(0, 230, 118, 0.4), rgba(0, 168, 85, 0.3));
+    transform: scale(1.02);
+}
+
+.boot-btn-restart {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #94a3b8;
+    font-size: 13px;
+    padding: 10px 18px;
+}
+
+.boot-btn-restart:hover {
+    color: #ff6b7b;
+    border-color: rgba(255, 82, 82, 0.4);
+    background: rgba(255, 82, 82, 0.1);
+}
+
+@keyframes blinkGlow {
+    0%, 100% { opacity: 1; box-shadow: 0 0 25px rgba(0, 229, 255, 0.5); }
+    50% { opacity: 0.85; box-shadow: 0 0 8px rgba(0, 229, 255, 0.2); }
+}
+
+/* ==========================================================================
+   CANVAS VIEWPORTS & INTERACTIVE GAME CONTROLS
+   ========================================================================== */
+.canvas-viewport {
+    width: 100%;
+    aspect-ratio: 500 / 265;
+    max-height: 275px;
+    background: #070b10;
+    border: 2px solid rgba(0, 229, 255, 0.3);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 14px;
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.9), 0 0 15px rgba(0, 229, 255, 0.08);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    touch-action: none;
+}
+
+.canvas-viewport canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+/* Rotating Circuit Tiles 4x4 (High-End FR-4 Military PCB Design) */
+.rot-circuit-grid-wrapper {
+    position: relative;
+    padding: 10px;
+    background: linear-gradient(145deg, #0b1a14, #050d0a);
+    border: 2px solid #b45309;
+    border-radius: 12px;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.9), 0 8px 24px rgba(0,0,0,0.8), 0 0 20px rgba(245, 158, 11, 0.15);
+    margin-bottom: 12px;
+    width: 100%;
+    max-width: 330px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pcb-header-bar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 6px 8px 6px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    color: #f59e0b;
+    border-bottom: 1px dashed rgba(245, 158, 11, 0.3);
+    margin-bottom: 8px;
+}
+
+.pcb-terminal-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 4px;
+    margin-bottom: 4px;
+}
+
+.pcb-term {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+}
+
+.pcb-term.inlet {
+    background: rgba(0, 229, 255, 0.15);
+    border: 1px solid var(--accent-cyan);
+    color: var(--accent-cyan);
+    box-shadow: 0 0 8px rgba(0, 229, 255, 0.3);
+}
+
+.pcb-term.outlet {
+    background: rgba(255, 179, 0, 0.15);
+    border: 1px solid var(--accent-amber);
+    color: var(--accent-amber);
+}
+
+.pcb-term.outlet.active {
+    background: rgba(0, 230, 118, 0.2);
+    border-color: var(--accent-emerald);
+    color: var(--accent-emerald);
+    box-shadow: 0 0 10px rgba(0, 230, 118, 0.5);
+}
+
+.rot-circuit-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    width: 290px;
+    height: 290px;
+    background: #06150e;
+    padding: 8px;
+    border-radius: 8px;
+    border: 2px solid #143521;
+    position: relative;
+    background-image: 
+        radial-gradient(circle, rgba(20, 80, 50, 0.3) 1px, transparent 1px);
+    background-size: 12px 12px;
+}
+
+.rot-tile {
+    background: linear-gradient(145deg, #0d2319, #081610);
+    border: 2px solid #1e4530;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.12s ease, border-color 0.2s, box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(255,255,255,0.05), 0 2px 4px rgba(0,0,0,0.6);
+}
+
+.rot-tile:hover {
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.3);
+}
+
+.rot-tile:active {
+    transform: scale(0.92);
+}
+
+/* Passive Connected Sub-circuit (Warm Gold / Amber Connection) */
+.rot-tile.connected {
+    border-color: #f59e0b;
+    background: linear-gradient(145deg, #1c2718, #101c10);
+    box-shadow: inset 0 0 10px rgba(245, 158, 11, 0.25), 0 0 12px rgba(245, 158, 11, 0.35);
+}
+
+/* Active High-Voltage Energized Circuit (Electric Neon Cyan) */
+.rot-tile.energized {
+    border-color: #00e5ff;
+    background: linear-gradient(145deg, #0a2e38, #061d24);
+    box-shadow: inset 0 0 14px rgba(0, 229, 255, 0.5), 0 0 22px rgba(0, 229, 255, 0.7);
+    animation: pcbPulse 1.8s infinite alternate;
+}
+
+.rot-tile.energized svg line,
+.rot-tile.energized svg path {
+    stroke-dasharray: 8 4;
+    animation: pcbCurrentFlow 0.8s linear infinite;
+}
+
+@keyframes pcbCurrentFlow {
+    to { stroke-dashoffset: -24; }
+}
+
+@keyframes pcbPulse {
+    0% { box-shadow: inset 0 0 10px rgba(0, 229, 255, 0.3), 0 0 14px rgba(0, 229, 255, 0.5); }
+    100% { box-shadow: inset 0 0 16px rgba(0, 229, 255, 0.65), 0 0 26px rgba(0, 229, 255, 0.9); }
+}
+
+.rot-tile svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* Knobs row */
+.knobs-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 12px;
+}
+
+.knob-control {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.knob-control label {
+    font-size: 10.5px;
+    font-weight: 800;
+    color: var(--accent-amber);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    font-family: var(--font-mono);
+    white-space: nowrap;
+}
+
+.knob-control input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 38px;
+    background: transparent;
+    touch-action: pan-x;
+    margin: 4px 0;
+}
+.knob-control input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 28px;
+    width: 22px;
+    border-radius: 6px;
+    background: var(--accent-cyan);
+    cursor: pointer;
+    box-shadow: 0 0 12px var(--accent-cyan);
+    border: 2px solid #fff;
+    margin-top: -10px;
+}
+.knob-control input[type=range]::-moz-range-thumb {
+    height: 28px;
+    width: 22px;
+    border-radius: 6px;
+    background: var(--accent-cyan);
+    cursor: pointer;
+    box-shadow: 0 0 12px var(--accent-cyan);
+    border: 2px solid #fff;
+}
+.knob-control input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 8px;
+    cursor: pointer;
+    background: #1e293b;
+    border-radius: 4px;
+    border: 1px solid #334155;
+}
+.knob-control input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 8px;
+    cursor: pointer;
+    background: #1e293b;
+    border-radius: 4px;
+    border: 1px solid #334155;
+}
+
+/* Mobile Touch Helper Controls (Stepper Buttons & Precision Steppers) */
+.mobile-ctrl-bar {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+    margin-bottom: 6px;
+    background: rgba(10, 16, 26, 0.7);
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 229, 255, 0.2);
+}
+
+.mobile-ctrl-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.ctrl-label {
+    font-size: 11px;
+    font-weight: 800;
+    font-family: var(--font-mono);
+    color: var(--accent-cyan);
+    min-width: 60px;
+    letter-spacing: 1px;
+}
+
+.ctrl-btn {
+    flex: 1;
+    min-height: 42px;
+    padding: 8px 10px;
+    background: linear-gradient(145deg, #222e40, #161e2b);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: all 0.12s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.ctrl-btn:active {
+    transform: scale(0.96);
+    background: rgba(0, 229, 255, 0.25);
+    border-color: var(--accent-cyan);
+}
+
+.code-input-box {
+    width: 100%;
+    background: #0a0f16;
+    border: 2px solid #283548;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 20px;
+    font-family: var(--font-mono);
+    text-align: center;
+    padding: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+.code-input-box:focus {
+    outline: none;
+    border-color: var(--accent-cyan);
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+}
+
+/* Final Victory Screen */
+#final-screen {
+    max-width: 680px;
+    text-align: center;
+    padding: 20px 10px;
+}
+
+.coords-card {
+    background: linear-gradient(145deg, #0c1a14, #050e0a);
+    border: 2px solid var(--accent-emerald);
+    border-radius: 18px;
+    padding: 26px 20px;
+    margin: 22px 0;
+    box-shadow: 0 0 50px rgba(0, 230, 118, 0.45), inset 0 0 35px rgba(0, 230, 118, 0.08);
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.coords-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: -100%; width: 200%; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--accent-emerald), #ffffff, var(--accent-emerald), transparent);
+    animation: scanSweep 3s infinite linear;
+}
+
+@keyframes scanSweep {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(50%); }
+}
+
+.coords-text {
+    font-family: var(--font-mono);
+    font-size: 26px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 2.5px;
+    word-break: break-all;
+    text-shadow: 0 0 14px var(--accent-emerald), 0 0 25px rgba(0, 230, 118, 0.6);
+}
+
+/* Reset Modal */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.88);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(8px);
+}
+.modal-overlay.active { display: flex; }
+
+.modal-dialog {
+    background: #18202c;
+    border: 2px solid var(--accent-crimson);
+    border-radius: 14px;
+    padding: 24px;
+    max-width: 360px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 0 35px rgba(255, 51, 75, 0.4);
+}
+
+.modal-btns {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+/* Hydraulic Valve Controls Grid */
+.valve-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    width: 100%;
+}
+
+.valve-btn {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    touch-action: manipulation;
+    margin-top: 0;
+}
+
+.valve-btn.active {
+    background: linear-gradient(145deg, #064e3b, #022c22);
+    border-color: var(--accent-emerald);
+    color: #a7f3d0;
+    box-shadow: 0 0 18px rgba(0, 230, 118, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    text-shadow: 0 0 8px rgba(0, 230, 118, 0.6);
+}
+
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVENESS (FULLY AUDITED & OPTIMIZED)
+   ========================================================================== */
+@media (max-width: 920px) {
+    .puzzle-layout {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .vault-panel {
+        width: 100%;
+        max-width: 520px;
+        min-width: unset;
+        padding: 16px 14px;
+    }
+
+    .dossier-paper {
+        width: 100%;
+        max-width: 520px;
+        min-width: unset;
+        padding: 18px 16px;
+        transform: none;
+        margin-top: 5px;
+    }
+
+    .dossier-paper::before {
+        display: none;
+    }
+
+    .canvas-viewport {
+        width: 100%;
+        aspect-ratio: 500 / 265;
+        max-height: 285px;
+        height: auto;
+    }
+
+    h1.level-title {
+        font-size: 20px;
+        margin-bottom: 8px;
+    }
+
+    .lcd-display {
+        font-size: 16px;
+        padding: 10px 12px;
+        margin-bottom: 12px;
+    }
+
+    .boot-duo-card {
+        width: 155px;
+        padding: 10px;
+    }
+
+    .boot-img-frame {
+        height: 170px;
+    }
+
+    .coords-text {
+        font-size: 21px;
+    }
+}
+
+@media (max-width: 480px) {
+    #app {
+        padding: 8px 10px calc(24px + env(safe-area-inset-bottom, 10px)) 10px;
+    }
+
+    .brand-badge {
+        font-size: 11.5px;
+        letter-spacing: 1px;
+    }
+
+    .status-controls .nav-btn {
+        padding: 6px 9px;
+        min-height: 38px;
+    }
+
+    .boot-title {
+        font-size: 26px;
+        letter-spacing: 2px;
+    }
+
+    .boot-subtitle {
+        font-size: 12.5px;
+        letter-spacing: 1.5px;
+    }
+
+    .boot-duo-gallery {
+        gap: 10px;
+    }
+
+    .boot-duo-card {
+        width: 142px;
+        padding: 8px;
+    }
+
+    .boot-img-frame {
+        height: 150px;
+    }
+
+    .boot-btn {
+        font-size: 13px;
+        padding: 14px 16px;
+        letter-spacing: 1px;
+        min-height: 48px;
+    }
+
+    .vault-panel {
+        padding: 14px 10px;
+    }
+
+    .valve-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+
+    .rot-circuit-grid {
+        width: 250px;
+        height: 250px;
+    }
+
+    .ctrl-btn {
+        min-height: 44px;
+    }
+
+    .action-btn {
+        min-height: 48px;
+        padding: 12px 16px;
+    }
+
+    .radio-play-btn {
+        min-height: 46px;
+        font-size: 11px;
+    }
+
+    .comm-stamp-img {
+        height: 38px;
+    }
+
+    .seal-header {
+        font-size: 7.5px;
+    }
+
+    .seal-sub {
+        font-size: 9px;
+        letter-spacing: 0.8px;
+    }
+}

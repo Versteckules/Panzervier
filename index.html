@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Panzerknacker IV: Projekt Taschango1 / Der Ausbruch</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <div id="app">
+        <!-- TOP STATUS / NAVIGATION BAR (Hidden on Boot Screen) -->
+        <header class="status-bar hidden">
+            <div class="brand-badge">
+                <span>PANZERKNACKER IV</span>
+                <span class="sub">// TASCHANGO1</span>
+            </div>
+            <div class="status-controls">
+                <span id="status-level" style="font-family: var(--font-mono); font-size: 13px; font-weight: bold; color: var(--accent-amber); margin-right: 6px;">STANDBY</span>
+                <button class="nav-btn" id="btn-sound-toggle" onclick="window.app.toggleMute()">
+                    🔊 <span class="hide-mobile">TON</span>
+                </button>
+                <button class="nav-btn" id="btn-reset-level" onclick="window.app.resetCurrentLevel()" style="display: none;">
+                    🔄 <span class="hide-mobile">LEVEL RST</span>
+                </button>
+                <button class="nav-btn danger" onclick="window.app.promptFullReset()">
+                    ⚠️ <span class="hide-mobile">NEUSTART</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- ================================================================ -->
+        <!-- BOOT SCREEN: FULL-SCREEN LANDING PAGE (AUTHENTIC PARTS 1-3 FEEL) -->
+        <!-- ================================================================ -->
+        <div id="boot-screen" class="screen active">
+            <div style="display: inline-block; padding: 4px 16px; border-radius: 20px; background: rgba(0, 229, 255, 0.12); border: 1px solid var(--accent-cyan); color: var(--accent-cyan); font-size: 11px; font-weight: 800; letter-spacing: 2px; margin-bottom: 12px;">
+                OPERATION: DER AUSBRUCH // DIE PANZERKNACKER IV
+            </div>
+            
+            <h1 class="boot-title">
+                PROJEKT TASCHANGO1
+            </h1>
+            
+            <div class="boot-subtitle">
+                MASTERMIND TASCHANGO1 // AGENT VERSTECKULES IM EINSATZ
+            </div>
+
+            <!-- Full Duo Pictures of Taschango1 & Versteckules Side-by-Side -->
+            <div class="boot-duo-gallery">
+                <div class="boot-duo-card boss-card">
+                    <div class="card-badge-top">MASTERMIND</div>
+                    <div class="boot-img-frame">
+                        <img src="tschango.jpg" alt="Taschango1" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23111\'/><text x=\'50\' y=\'60\' font-size=\'22\' fill=\'%23ffb300\' text-anchor=\'middle\'>TASCHANGO1</text></svg>'">
+                    </div>
+                    <div class="boot-card-name">Taschango1</div>
+                    <div class="boot-card-role">Mastermind &amp; Chef // Leitstelle</div>
+                </div>
+
+                <div class="boot-duo-card agent-card">
+                    <div class="card-badge-top">INFILTRATION</div>
+                    <div class="boot-img-frame">
+                        <img src="Avatar.jpg" alt="Versteckules" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'45\' fill=\'%23111\'/><text x=\'50\' y=\'60\' font-size=\'30\' fill=\'%2300e5ff\' text-anchor=\'middle\'>VER</text></svg>'">
+                    </div>
+                    <div class="boot-card-name">Versteckules</div>
+                    <div class="boot-card-role">Agent 01 // Im Feldeinsatz</div>
+                </div>
+            </div>
+
+            <p class="boot-story-text">
+                Mastermind <strong>Taschango1</strong> leitet die Operation aus der geheimen Kommandozentrale. Agent <strong>Versteckules</strong> hat das Hochsicherheits-Bunkerareal infiltriert. 10 interaktive Sicherheitssperren versperren den Weg zum Tresor. Versteckules muss jeden Sektor knacken, um Taschango1s kryptografischen Schlüssel und die finalen Geocaching-Koordinaten freizuschalten!
+            </p>
+
+            <div id="boot-actions" class="boot-actions">
+                <button class="boot-btn boot-btn-start" onclick="window.app.startNewGame()">
+                    ⚡ INFILTRATION STARTEN // SEKTOR 01 ⚡
+                </button>
+            </div>
+        </div>
+
+        <!-- ================================================================ -->
+        <!-- LEVEL 1: PRISMA-SPEKTRALLABOR                                   -->
+        <!-- ================================================================ -->
+        <div id="level-1" class="screen">
+            <div class="level-meta">SEKTOR 01 // OPTISCHE SCHLEUSE</div>
+            <h1 class="level-title">Prisma-Spektrallabor</h1>
+            
+            <div class="puzzle-layout">
+                <div class="vault-panel">
+                    <div class="bolt b-tl"></div><div class="bolt b-tr"></div><div class="bolt b-bl"></div><div class="bolt b-br"></div>
+                    <div class="lcd-caption">SPEKTRAL-MONITOR</div>
+                    <div class="lcd-display" id="lcd-1">INITIALISIERE OPTIK...</div>
+
+                    <div class="canvas-viewport">
+                        <canvas id="canvas-l1"></canvas>
+                    </div>
+
+                    <div style="font-size: 11px; color: var(--accent-cyan); text-align: center; margin-top: 6px; letter-spacing: 0.5px;">
+                        🖐️ <strong>Touch / Drag:</strong> Prisma drehen &amp; Linsen per Finger vertikal verschieben
+                    </div>
+                </div>
+
+                <div class="dossier-paper">
+                    <div class="dossier-stamp">FUNKSPRUCH</div>
+                    <div class="dossier-title">Taschango1s Anweisung #1</div>
+                    <button class="radio-play-btn" id="radio-btn-1" onclick="window.soundEngine.toggleRadioTransmission(1)">
+                        <span class="radio-icon">📻</span>
+                        <span class="radio-label">FUNKSPRUCH ABHÖREN (FRÄNKISCH)</span>
+                    </button>
+                    <div class="dossier-content">
+                        <p><strong>Taschango1 an Versteckules:</strong> <em>"Du stehst vor der optischen Schleuse. Das Laserschloss reagiert auf spektrale Wellenlängen:"</em></p>
+                        <ul>
+                            <li>Der weiße Laser bricht sich im Prisma in <strong>Rot, Grün und Blau</strong> auf.</li>
+                            <li>Sensor <strong>α</strong> verlangt das rote Lichtband oben.</li>
+                            <li>Sensor <strong>β</strong> verlangt das grüne Band in der Mitte.</li>
+                            <li>Sensor <strong>γ</strong> verlangt das blaue Band unten.</li>
+                        </ul>
+                        <div class="dossier-comm-seal">
+                            <img src="tschango_stamp.png" alt="Taschango1" class="comm-stamp-img">
+                            <div class="comm-seal-text">
+                                <div class="seal-header">ABHÖRSICHERER FUNKSPRUCH</div>
+                                <div class="seal-sub">TASCHANGO1 ➔ VERSTECKULES</div>
+                            </div>
+                            <img src="Avatar_stamp.png" alt="Versteckules" class="comm-stamp-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================ -->
+        <!-- LEVEL 2: LASER-KNOTEN ENTWIRRUNG                                 -->
+        <!-- ================================================================ -->
+        <div id="level-2" class="screen">
+            <div class="level-meta">SEKTOR 02 // ENERGIEGITTER</div>
+            <h1 class="level-title">Laser-Knoten Entwirrung</h1>
+
+            <div class="puzzle-layout">
+                <div class="vault-panel">
+                    <div class="bolt b-tl"></div><div class="bolt b-tr"></div><div class="bolt b-bl"></div><div class="bolt b-br"></div>
+                    <div class="lcd-caption">GITTERNODES</div>
+                    <div class="lcd-display" id="lcd-2">BERECHNE KREUZUNGEN...</div>
+
+                    <div class="canvas-viewport">
+                        <canvas id="canvas-l2"></canvas>
+                    </div>
+
+                    <button class="action-btn btn-amber" onclick="window.puzzleManager.initL2()">
+                        KNOTEN ZURÜCKSETZEN
+                    </button>
+                </div>
+
+                <div class="dossier-paper">
+                    <div class="dossier-stamp">FUNKSPRUCH</div>
+                    <div class="dossier-title">Taschango1s Anweisung #2</div>
+                    <button class="radio-play-btn" id="radio-btn-2" onclick="window.soundEngine.toggleRadioTransmission(2)">
+                        <span class="radio-icon">📻</span>
+                        <span class="radio-label">FUNKSPRUCH ABHÖREN (FRÄNKISCH)</span>
+                    </button>
+                    <div class="dossier-content">
+                        <p><strong>Taschango1 an Versteckules:</strong> <em>"Achtung, das Energiegitter blockiert den Korridor. Die Laserströme bilden ein komplexes Knotennetz:"</em></p>
+                        <ul>
+                            <li>Kreuzende Laserstrahlen leuchten <strong>Rot</strong> und halten das Gitter aktiv.</li>
+                            <li>Verschiebe die leuchtenden Energieknoten so, dass sich <strong>kein einziger Laserstrahl mehr schneidet</strong>!</li>
+                            <li>Sobald alle Linien kreuzungsfrei grün leuchten, schaltet das Gitter ab.</li>
+                        </ul>
+                        <div class="dossier-comm-seal">
+                            <img src="tschango_stamp.png" alt="Taschango1" class="comm-stamp-img">
+                            <div class="comm-seal-text">
+                                <div class="seal-header">ABHÖRSICHERER FUNKSPRUCH</div>
+                                <div class="seal-sub">TASCHANGO1 ➔ VERSTECKULES</div>
+                            </div>
+                            <img src="Avatar_stamp.png" alt="Versteckules" class="comm-stamp-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================ -->
+        <!-- LEVEL 3: STETHOSKOP-KÖRPERSCHALL-TRESOR                          -->
+        <!-- ================================================================ -->
+        <div id="level-3" class="screen">
+            <div class="level-meta">SEKTOR 03 // ARCHIV-TRESOR</div>
+            <h1 class="level-title">Körperschall-Tresor</h1>
+
+            <div class="puzzle-layout">
+                <div class="vault-panel">
+                    <div class="bolt b-tl"></div><div class="bolt b-tr"></div><div class="bolt b-bl"></div><div class="bolt b-br"></div>
+                    <div class="lcd-caption">STETHOSKOP-OSZILLOSKOP</div>
+                    <div class="lcd-display" id="lcd-3">DREHSCHEIBE BEREIT</div>
+
+                    <div class="canvas-viewport">
+                        <canvas id="canvas-l3"></canvas>
+                    </div>
+
+                    <div style="display:flex; gap:6px; width:100%; margin-bottom:8px;">
+                        <button class="ctrl-btn" onclick="window.puzzleManager.l3StepDial(-5)">◀ -5</button>
+                        <button class="ctrl-btn" onclick="window.puzzleManager.l3StepDial(-1)">◀ -1</button>
+                        <button class="ctrl-btn" onclick="window.puzzleManager.l3StepDial(1)">+1 ▶</button>
+                        <button class="ctrl-btn" onclick="window.puzzleManager.l3StepDial(5)">+5 ▶</button>
+                    </div>
+
+                    <button class="action-btn btn-green" onclick="window.puzzleManager.l3LockTumbler()">
+                        SCHEIBE EINRASTEN 🔊
+                    </button>
+                </div>
+
+                <div class="dossier-paper">
+                    <div class="dossier-stamp">FUNKSPRUCH</div>
+                    <div class="dossier-title">Taschango1s Anweisung #3</div>
+                    <button class="radio-play-btn" id="radio-btn-3" onclick="window.soundEngine.toggleRadioTransmission(3)">
+                        <span class="radio-icon">📻</span>
+                        <span class="radio-label">FUNKSPRUCH ABHÖREN (FRÄNKISCH)</span>
+                    </button>
+                    <div class="dossier-content">
+                        <p><strong>Taschango1 an Versteckules:</strong> <em>"Setz das Körperschall-Stethoskop an die Tresorwand. Dreh das Zahlenrad mit Feingefühl:"</em></p>
+                        <ul>
+                            <li>Drehe das Zahlenrad (00–99). Das Oszilloskop misst die mechanischen Vibrationen der Fallriegel.</li>
+                            <li>Näherst du dich einer Zielzahl, schlägt die Oszilloskop-Welle stark resonant aus!</li>
+                            <li>Stoppe auf der maximalen Resonanz und klicke auf <strong>'SCHEIBE EINRASTEN'</strong>, um nacheinander alle 3 Riegel zu sperren.</li>
+                        </ul>
+                        <div class="dossier-comm-seal">
+                            <img src="tschango_stamp.png" alt="Taschango1" class="comm-stamp-img">
+                            <div class="comm-seal-text">
+                                <div class="seal-header">ABHÖRSICHERER FUNKSPRUCH</div>
+                                <div class="seal-sub">TASCHANGO1 ➔ VERSTECKULES</div>
+                            </div>
+                            <img src="Avatar_stamp.png" alt="Versteckules" class="comm-stamp-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================ -->
+        <!-- LEVEL 4: ROTIERENDE PLATINEN-KACHELN                             -->
+        <!-- ================================================================ -->
+        <div id="level-4" class="screen">
+            <div class="level-meta">SEKTOR 04 // LEITUNGSTRAKT</div>
+            <h1 class="level-title">Platinen-Schaltkreis</h1>
+
+            <div class="puzzle-layout">
+                <div class="vault-panel">
+                    <div class="bolt b-tl"></div><div class="bolt b-tr"></div><div class="bolt b-bl"></div><div class="bolt b-br"></div>
+                    <div class="lcd-caption">SCHALTKREIS-STATUS</div>
+                    <div class="lcd-display" id="lcd-4">LEITERBAHN UNVOLLSTÄNDIG</div>
+
+                    <div class="rot-circuit-grid-wrapper">
+                        <div class="pcb-header-bar">
+                            <span>FR-4 HIGH-DENSITY BUS</span>
+                            <span>REV 4.2 // CIPHER-LOCK</span>
+                        </div>
+                        <div class="pcb-terminal-row">
+                            <span class="pcb-term inlet">⚡ 24V DC INLET</span>
+                            <span class="pcb-term outlet" id="l4-term-out">🔒 RELAIS-GATE</span>
+                        </div>
+                        <div id="l4-rot-grid" class="rot-circuit-grid"></div>
+                    </div>
+
+                    <button class="action-btn btn-amber" onclick="window.puzzleManager.initL4()">
+                        PLATINE NEUSTARTEN
+                    </button>
+                </div>
+
+                <div class="dossier-paper">
+                    <div class="dossier-stamp">FUNKSPRUCH</div>
+                    <div class="dossier-title">Taschango1s Anweisung #4</div>
+                    <button class="radio-play-btn" id="radio-btn-4" onclick="window.soundEngine.toggleRadioTransmission(4)">
+                        <span class="radio-icon">📻</span>
+                        <span class="radio-label">FUNKSPRUCH ABHÖREN (FRÄNKISCH)</span>
+                    </button>
+                    <div class="dossier-content">
+                        <p><strong>Taschango1 an Versteckules:</strong> <em>"Die Hauptrechenplatine wurde sabotiert und die Leiterbahnen verdreht. Stelle den Signalfluss wieder her:"</em></p>
+                        <ul>
+                            <li>Tippe auf eine Platine-Kachel, um sie um <strong>90° im Uhrzeigersinn zu rotieren</strong>.</li>
+                            <li>Bilde eine durchgehende Goldleiterbahn von <strong>links oben</strong> (Eingang) bis <strong>rechts unten</strong> (Ausgang).</li>
+                            <li>Sobald die Leitung lückenlos geschlossen ist, fließt Strom!</li>
+                        </ul>
+                        <div class="dossier-comm-seal">
+                            <img src="tschango_stamp.png" alt="Taschango1" class="comm-stamp-img">
+                            <div class="comm-seal-text">
+                                <div class="seal-header">ABHÖRSICHERER FUNKSPRUCH</div>
+                                <div class="seal-sub">TASCHANGO1 ➔ VERSTECKULES</div>
+                            </div>
+                            <img src="Avatar_stamp.png" alt="Versteckules" class="comm-stamp-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================ -->
+        <!-- LEVEL 5: FREQUENZ-SPEKTROGRAMM                                   -->
+        <!-- ================================================================ -->
+        <div id="level-5" class="screen">
+            <div class="level-meta">SEKTOR 05 // FUNK-ABHÖRSTATION</div>
+            <h1 class="level-title">Frequenz-Spektrogramm</h1>
+
+            <div class="puzzle-layout">
+                <div class="vault-panel">
+                    <div class="bolt b-tl"></div><div class="bolt b-tr"></div><div class="bolt b-bl"></div><div class="bolt b-br"></div>
+                    <div class="lcd-caption">SPEKTRUM-ANALYSATOR</div>
+                    <div class="lcd-display" id="lcd-5">FILTER EINSTELLEN...</div>
+
+                    <div class="canvas-viewport">
+                        <canvas id="canvas-l5"></canvas>
+                    </div>
+
+                    <div class="knobs-row">
+                        <div class="knob-control">
+                            <label id="l5-lbl-hpf">HPF: 200Hz</label>
+                            <input type="range" id="l5-hpf" min="100" max="2000" step="10" value="200" oninput="window.puzzleManager.l5UpdateKnob('hpf', this.value)">
+                        </div>
+                        <div class="knob-control">
+                            <label id="l5-lbl-lpf">LPF: 8000Hz</label>
+                            <input type="range" id="l5-lpf" min="2000" max="8000" step="50" value="8000" oninput="window.puzzleManager.l5UpdateKnob('lpf', this.value)">
+                        </div>
+                        <div class="knob-control">
+                            <label id="l5-lbl-notch">NOTCH: 100Hz</label>
+                            <input type="range" id="l5-notch" min="50" max="1000" step="10" value="100" oninput="window.puzzleManager.l5UpdateKnob('notch', this.value)">
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:8px; width:100%;">
+                        <input type="text" id="l5-input" class="code-input-box" placeholder="CODE" maxlength="4" inputmode="numeric" pattern="[0-9]*" autocomplete="off" style="margin-bottom:0;" onkeydown="if(event.key==='Enter') window.puzzleManager.l5SubmitCode()">
+                        <button class="action-btn btn-green" style="margin-top:0; width:100px;" onclick="window.puzzleManager.l5SubmitCode()">OK</button>
+                    </div>
+                </div>
+
+                <div class="dossier-paper">
+                    <div class="dossier-stamp">FUNKSPRUCH</div>
+                    <div class="dossier-title">Taschango1s Anweisung #5</div>
+                    <button class="radio-play-btn" id="radio-btn-5" onclick="window.soundEngine.toggleRadioTransmission(5)">
+                        <span class="radio-icon">📻</span>
+                        <span class="radio-label">FUNKSPRUCH ABHÖREN (FRÄNKISCH)</span>
+                    </button>
+                    <div class="dossier-content">
+                        <p><strong>Taschango1 an Versteckules:</strong> <em>"Der Notfall-Transceiver empfängt ein verrauschtes Signal auf dem Spektrogramm. Justiere die Frequenzfilter:"</em></p>
+                        <ul>
+                            <li>Der Träger liegt im Sprachband. Unterdrücke tiefe Störgeräusche mit dem <strong>Hochpass (HPF)</strong> und Zischen mit dem <strong>Tiefpass (LPF)</strong>.</li>
+                            <li>Beseitige das 500-Hz-Brummen mit dem <strong>Kerbfilter (Notch)</strong>.</li>
+                            <li>Bei hoher Signal-Klarheit schält sich ein 4-stelliger Zifferncode im Spektrum heraus!</li>
+                        </ul>
+                        <div class="dossier-comm-seal">
+                            <img src="tschango_stamp.png" alt="Taschango1" class="comm-stamp-img">
+                            <div class="comm-seal-text">
+                                <div class="seal-header">ABHÖRSICHERER FUNKSPRUCH</div>
+                                <div class="seal-sub">TASCHANGO1 ➔ VERSTECKULES</div>
+                            </div>
+                            <img src="Avatar_stamp.png" alt="Versteckules" class="comm-stamp-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================ -->
+        <!-- LEVEL 6: PNEUMATISCHE DRUCKVENTIL-HYDRAULIK                      -->
+        <!-- ================================================================ -->
+        <div id="level-6" class="screen">
+            <div class="level-meta">SEKTOR 06 // MASCHINENRAUM</div>
+            <h1 class="level-title">Pneumatische Ventilsteuerung</h1>
+
+            <div class="puzzle-layout">
+                <div class="vault-panel">
+                    <div class="bolt b-tl"></div><div class="bolt b-tr"></div><div class="bolt b-bl"></div><div class="bolt b-br"></div>
+                    <div class="lcd-caption">SYSTEMDRUCK (ZIEL: 3.5 BAR)</div>
+                    <div class="lcd-display" id="lcd-6">MANOMETER KALIBRIEREN</div>
+
+                    <div class="canvas-viewport">
+                        <canvas id="canvas-l6"></canvas>
+                    </div>
+
+                    <div class="valve-grid">
+                        <button class="nav-btn valve-btn" id="valve-btn-0" onclick="window.puzzleManager.l6ToggleValve(0)">VENTIL I</button>
+                        <button class="nav-btn valve-btn" id="valve-btn-1" onclick="window.puzzleManager.l6ToggleValve(1)">VENTIL II</button>
+                        <button class="nav-btn valve-btn" id="valve-btn-2" onclick="window.puzzleManager.l6ToggleValve(2)">VENTIL III</button>
+                        <button class="nav-btn valve-btn" id="valve-btn-3" onclick="window.puzzleManager.l6ToggleValve(3)">VENTIL IV</button>
+                    </div>
+                </div>
+
+                <div class="dossier-paper">
+                    <div class="dossier-stamp">FUNKSPRUCH</div>
+                    <div class="dossier-title">Taschango1s Anweisung #6</div>
+                    <button class="radio-play-btn" id="radio-btn-6" onclick="window.soundEngine.toggleRadioTransmission(6)">
+                        <span class="radio-icon">📻</span>
+                        <span class="radio-label">FUNKSPRUCH ABHÖREN (FRÄNKISCH)</span>
+                    </button>
+                    <div class="dossier-content">
+                        <p><strong>Taschango1 an Versteckules:</strong> <em>"Das Druckkammersystem blockiert die Schleusentür. Wir müssen alle vier Manometer auf exakt 3.5 bar austarieren:"</em></p>
+                        <ul>
+                            <li>Vier gekoppelte Hydraulikkammern stehen unter ungleichem Druck.</li>
+                            <li>Die Ventile sind über Kreuzleitungen verschaltet: Jedes Ventil erhöht den Druck einer Kammer, entzieht aber gleichzeitig Druck aus zwei anderen Kammern!</li>
+                            <li>Finde die exakte Schaltkombination der 4 Ventile, die alle Manometer simultan im <strong>grünen Bereich (3.5 bar)</strong> stabilisiert.</li>
+                        </ul>
+                        <div class="dossier-comm-seal">
+                            <img src="tschango_stamp.png" alt="Taschango1" class="comm-stamp-img">
+                            <div class="comm-seal-text">
+                                <div class="seal-header">ABHÖRSICHERER FUNKSPRUCH</div>
+                                <div class="seal-sub">TASCHANGO1 ➔ VERSTECKULES</div>
+                            </div>
+                            <img src="Avatar_stamp.png" alt="Versteckules" class="comm-stamp-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================ -->
+        <!-- LEVEL 7: LASER-LICHTSCHRANKEN-PARCOURS                           -->
+        <!-- ================================================================ -->
+        <div id="level-7" class="screen">
+            <div class="level-meta">SEKTOR 07 // SICHERHEITSKORRIDOR</div>
+            <h1 class="level-title">Laser-Lichtschranken-Parcours</h1>
+
+            <div class="puzzle-layout">
+                <div class="vault-panel">
+                    <div class="bolt b-tl"></div><div class="bolt b-tr"></div><div class="bolt b-bl"></div><div class="bolt b-br"></div>
+                    <div class="lcd-caption">LICHTSCHRANKEN-STATUS</div>
+                    <div class="lcd-display" id="lcd-7">ALARM AKTIV // STRAHLEN UMLENKEN</div>
+
+                    <div class="canvas-viewport">
+                        <canvas id="canvas-l7"></canvas>
+                    </div>
+
+                    <div style="font-size: 11px; color: var(--accent-cyan); text-align: center; margin: 6px 0 8px 0; letter-spacing: 0.5px;">
+                        🖐️ <strong>Touch / Tap:</strong> Auf die 4 Prismenspiegel tippen, um sie um 45° zu drehen
+                    </div>
+
+                    <button class="action-btn btn-amber" onclick="window.puzzleManager.initL7()">
+                        SPIEGEL ZURÜCKSETZEN 🔄
+                    </button>
+                </div>
+
+                <div class="dossier-paper">
+                    <div class="dossier-stamp">FUNKSPRUCH</div>
+                    <div class="dossier-title">Taschango1s Anweisung #7</div>
+                    <button class="radio-play-btn" id="radio-btn-7" onclick="window.soundEngine.toggleRadioTransmission(7)">
+                        <span class="radio-icon">📻</span>
+                        <span class="radio-label">FUNKSPRUCH ABHÖREN (FRÄNKISCH)</span>
+                    </button>
+                    <div class="dossier-content">
+                        <p><strong>Taschango1 an Versteckules:</strong> <em>"Der Bunkerkorridor ist durch rote Laser-Lichtschranken komplett abgeriegelt. Wir müssen das Alarmsystem umgehen:"</em></p>
+                        <ul>
+                            <li>Sobald ein roter Laserstrahl einen der <strong>Alarm-Sensoren</strong> trifft, bleibt die Schleuse hermetisch verriegelt.</li>
+                            <li>Tippe auf die vier montierten <strong>Prismenspiegel</strong>, um ihre Ausrichtung jeweils um <strong>45° zu drehen</strong>.</li>
+                            <li>Lenke den Laserstrahl so um, dass er an allen Alarm-Sensoren vorbeiläuft und direkt in den <strong>grünen Bypass-Kollektor</strong> einspeist!</li>
+                        </ul>
+                        <div class="dossier-comm-seal">
+                            <img src="tschango_stamp.png" alt="Taschango1" class="comm-stamp-img">
+                            <div class="comm-seal-text">
+                                <div class="seal-header">ABHÖRSICHERER FUNKSPRUCH</div>
+                                <div class="seal-sub">TASCHANGO1 ➔ VERSTECKULES</div>
+                            </div>
+                            <img src="Avatar_stamp.png" alt="Versteckules" class="comm-stamp-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================ -->
+        <!-- LEVEL 8: KONZENTRISCHE KRYPTO-WALZE                              -->
+        <!-- ================================================================ -->
+        <div id="level-8" class="screen">
+            <div class="level-meta">SEKTOR 08 // KRYPTOTRESOR</div>
+            <h1 class="level-title">Konzentrische Krypto-Walze</h1>
+
+            <div class="puzzle-layout">
+                <div class="vault-panel">
+                    <div class="bolt b-tl"></div><div class="bolt b-tr"></div><div class="bolt b-bl"></div><div class="bolt b-br"></div>
+                    <div class="lcd-caption">WALZEN-STATUS</div>
+                    <div class="lcd-display" id="lcd-8">WALZEN AUSRICHTEN</div>
+
+                    <div class="canvas-viewport">
+                        <canvas id="canvas-l8"></canvas>
+                    </div>
+
+                    <div style="font-size: 11px; color: var(--accent-cyan); text-align: center; margin-top: 6px; letter-spacing: 0.5px;">
+                        🖐️ <strong>Touch / Drag:</strong> Außen-, Mittel- &amp; Innenring direkt mit dem Finger drehen
+                    </div>
+                </div>
+
+                <div class="dossier-paper">
+                    <div class="dossier-stamp">FUNKSPRUCH</div>
+                    <div class="dossier-title">Taschango1s Anweisung #8</div>
+                    <button class="radio-play-btn" id="radio-btn-8" onclick="window.soundEngine.toggleRadioTransmission(8)">
+                        <span class="radio-icon">📻</span>
+                        <span class="radio-label">FUNKSPRUCH ABHÖREN (FRÄNKISCH)</span>
+                    </button>
+                    <div class="dossier-content">
+                        <p><strong>Taschango1 an Versteckules:</strong> <em>"Ein kryogenes Dreifach-Rotorschloss sichert die Steuerdaten. Richte die Walzen an der roten Markierung aus:"</em></p>
+                        <ul>
+                            <li><strong>Außenring:</strong> Der 3. Buchstabe des Alphabets.</li>
+                            <li><strong>Mittelring:</strong> Die kleinste positive Primzahl.</li>
+                            <li><strong>Innenring:</strong> Die römische Zahl für 7.</li>
+                        </ul>
+                        <div class="dossier-comm-seal">
+                            <img src="tschango_stamp.png" alt="Taschango1" class="comm-stamp-img">
+                            <div class="comm-seal-text">
+                                <div class="seal-header">ABHÖRSICHERER FUNKSPRUCH</div>
+                                <div class="seal-sub">TASCHANGO1 ➔ VERSTECKULES</div>
+                            </div>
+                            <img src="Avatar_stamp.png" alt="Versteckules" class="comm-stamp-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================ -->
+        <!-- LEVEL 9: EPIZYKLISCHES PLANETENGETRIEBE                          -->
+        <!-- ================================================================ -->
+        <div id="level-9" class="screen">
+            <div class="level-meta">SEKTOR 09 // HAUPTTOR-GETRIEBE</div>
+            <h1 class="level-title">Epizyklisches Planetengetriebe</h1>
+
+            <div class="puzzle-layout">
+                <div class="vault-panel">
+                    <div class="bolt b-tl"></div><div class="bolt b-tr"></div><div class="bolt b-bl"></div><div class="bolt b-br"></div>
+                    <div class="lcd-caption">ZAHNRAD-PHASENLAGE</div>
+                    <div class="lcd-display" id="lcd-9">ANTRIEBS-ZÄHNE: [ 0 ]</div>
+
+                    <div class="canvas-viewport">
+                        <canvas id="canvas-l9"></canvas>
+                    </div>
+
+                    <div style="display:flex; gap:8px; width:100%; margin-bottom:8px;">
+                        <button class="nav-btn" style="flex:1;" onclick="window.puzzleManager.l9AdjustTeeth(-1)">◀ ZAHN -1</button>
+                        <button class="nav-btn" style="flex:1;" onclick="window.puzzleManager.l9AdjustTeeth(1)">ZAHN +1 ▶</button>
+                    </div>
+
+                    <button class="action-btn btn-green" onclick="window.puzzleManager.l9Engage()">
+                        GETRIEBE KUPPELN ⚙️
+                    </button>
+                </div>
+
+                <div class="dossier-paper">
+                    <div class="dossier-stamp">FUNKSPRUCH</div>
+                    <div class="dossier-title">Taschango1s Anweisung #9</div>
+                    <button class="radio-play-btn" id="radio-btn-9" onclick="window.soundEngine.toggleRadioTransmission(9)">
+                        <span class="radio-icon">📻</span>
+                        <span class="radio-label">FUNKSPRUCH ABHÖREN (FRÄNKISCH)</span>
+                    </button>
+                    <div class="dossier-content">
+                        <p><strong>Taschango1 an Versteckules:</strong> <em>"Das schwere Panzertor wird über ein Planetengetriebe angetrieben:"</em></p>
+                        <ul>
+                            <li>Sonnenrad Z_s = 18 Zähne, Hohlrad Z_r = 42 Zähne.</li>
+                            <li>Übersetzungsverhältnis: <strong>i = 1 + (42 / 18) = 10 / 3</strong>.</li>
+                            <li>Um den Träger exakt um 6 Rastschritte zu drehen, muss das Sonnenrad auf genau <strong>20 Zähne</strong> justiert werden!</li>
+                        </ul>
+                        <div class="dossier-comm-seal">
+                            <img src="tschango_stamp.png" alt="Taschango1" class="comm-stamp-img">
+                            <div class="comm-seal-text">
+                                <div class="seal-header">ABHÖRSICHERER FUNKSPRUCH</div>
+                                <div class="seal-sub">TASCHANGO1 ➔ VERSTECKULES</div>
+                            </div>
+                            <img src="Avatar_stamp.png" alt="Versteckules" class="comm-stamp-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================ -->
+        <!-- LEVEL 10: FLUCHT-VEKTORPLOTTER                                   -->
+        <!-- ================================================================ -->
+        <div id="level-10" class="screen">
+            <div class="level-meta">SEKTOR 10 // FINALE TRIANGULATION</div>
+            <h1 class="level-title">Flucht-Vektorplotter</h1>
+
+            <div class="puzzle-layout">
+                <div class="vault-panel">
+                    <div class="bolt b-tl"></div><div class="bolt b-tr"></div><div class="bolt b-bl"></div><div class="bolt b-br"></div>
+                    <div class="lcd-caption">SATELLITEN-RADAR</div>
+                    <div class="lcd-display" id="lcd-10">ZIEL TRIANGULIEREN</div>
+
+                    <div class="canvas-viewport">
+                        <canvas id="canvas-l10"></canvas>
+                    </div>
+
+                    <div style="font-size: 11px; color: var(--accent-cyan); text-align: center; margin-top: 6px; letter-spacing: 0.5px;">
+                        🖐️ <strong>Touch / Drag:</strong> Fadenkreuz direkt mit dem Finger zum Schnittpunkt ziehen
+                    </div>
+
+                    <button class="action-btn btn-green" id="btn-launch-getaway" style="display:none; margin-top:6px;" onclick="window.puzzleManager.l10TriggerGetaway()">
+                        ZÜNDUNG STARTEN &amp; FLUCHT AUSLÖSEN 🚀
+                    </button>
+                </div>
+
+                <div class="dossier-paper">
+                    <div class="dossier-stamp">FUNKSPRUCH</div>
+                    <div class="dossier-title">Taschango1s Anweisung #10</div>
+                    <button class="radio-play-btn" id="radio-btn-10" onclick="window.soundEngine.toggleRadioTransmission(10)">
+                        <span class="radio-icon">📻</span>
+                        <span class="radio-label">FUNKSPRUCH ABHÖREN (FRÄNKISCH)</span>
+                    </button>
+                    <div class="dossier-content">
+                        <p><strong>Taschango1 an Versteckules:</strong> <em>"Letzte Hürde! Wir müssen die Zielkoordinaten über die 3 Funkfeuer triangulieren:"</em></p>
+                        <ul>
+                            <li>Drei militärische Funkbaken senden Distanzkreise über das Radardisplay.</li>
+                            <li>Ziehe das Fadenkreuz exakt auf den <strong>gemeinsamen Schnittpunkt aller drei Kreise</strong>!</li>
+                            <li>Sobald das Radar einrastet (grünes Fadenkreuz), löse die Zündung aus, um die finalen Koordinaten freizuschalten!</li>
+                        </ul>
+                        <div class="dossier-comm-seal">
+                            <img src="tschango_stamp.png" alt="Taschango1" class="comm-stamp-img">
+                            <div class="comm-seal-text">
+                                <div class="seal-header">ABHÖRSICHERER FUNKSPRUCH</div>
+                                <div class="seal-sub">TASCHANGO1 ➔ VERSTECKULES</div>
+                            </div>
+                            <img src="Avatar_stamp.png" alt="Versteckules" class="comm-stamp-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================================================================ -->
+        <!-- FINAL VICTORY SCREEN: KOORDINATEN                                -->
+        <!-- ================================================================ -->
+        <div id="final-screen" class="screen">
+            <div style="display:inline-block; padding: 4px 16px; border-radius: 20px; border: 2px solid var(--accent-emerald); color: var(--accent-emerald); font-weight: 900; letter-spacing: 2px; margin-bottom: 15px; box-shadow: 0 0 15px rgba(0, 230, 118, 0.4);">
+                ★ MISSION VOLLENDET ★
+            </div>
+            
+            <h1 style="font-size: 34px; font-weight: 900; letter-spacing: 2px; color: var(--accent-emerald); text-shadow: 0 0 25px rgba(0, 230, 118, 0.7); margin: 0 0 10px 0;">
+                AUSBRUCH ERFOLGREICH!
+            </h1>
+
+            <!-- Duo Victory Avatars Mini-Row -->
+            <div style="display:flex; justify-content:center; gap:16px; margin: 15px 0 20px 0; flex-wrap:wrap;">
+                <div style="display:flex; align-items:center; gap:10px; background:rgba(15,23,42,0.85); border:1px solid rgba(245,158,11,0.4); border-radius:30px; padding:6px 14px 6px 6px; box-shadow:0 0 15px rgba(245,158,11,0.15);">
+                    <img src="tschango.jpg" alt="Taschango1" style="width:40px; height:40px; border-radius:50%; object-fit:cover; border:2px solid var(--accent-amber);">
+                    <div style="text-align:left;">
+                        <div style="font-size:10px; color:#94a3b8; font-family:var(--font-mono);">MASTERMIND</div>
+                        <div style="font-size:12px; font-weight:bold; color:var(--accent-amber);">TASCHANGO1</div>
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px; background:rgba(15,23,42,0.85); border:1px solid rgba(0,229,255,0.4); border-radius:30px; padding:6px 14px 6px 6px; box-shadow:0 0 15px rgba(0,229,255,0.15);">
+                    <img src="Avatar.jpg" alt="Versteckules" style="width:40px; height:40px; border-radius:50%; object-fit:cover; border:2px solid var(--accent-cyan);">
+                    <div style="text-align:left;">
+                        <div style="font-size:10px; color:#94a3b8; font-family:var(--font-mono);">FIELD AGENT</div>
+                        <div style="font-size:12px; font-weight:bold; color:var(--accent-cyan);">VERSTECKULES</div>
+                    </div>
+                </div>
+            </div>
+
+            <p style="font-size: 15px; color: #cbd5e1; max-width: 540px; line-height: 1.6; margin: 0 auto 20px auto;">
+                Agent Versteckules hat alle 10 Bunkersektoren geknackt und Mastermind Taschango1s Master-Schlüssel aktiviert! Die finalen Geocaching-Koordinaten sind vollständig entschlüsselt:
+            </p>
+
+            <div class="coords-card">
+                <div style="font-size: 13px; color: var(--accent-emerald); letter-spacing: 2px; margin-bottom: 8px; font-weight: bold;">
+                    TRESOR- / FINAL-KOORDINATEN
+                </div>
+                <div class="coords-text" id="final-coords">
+                    [ VERSCHLÜSSELT // 10 TOKENS ERFORDERLICH ]
+                </div>
+            </div>
+
+            <button class="boot-btn boot-btn-continue" id="btn-copy-coords" style="max-width: 380px; margin: 0 auto 20px auto;" onclick="window.app.copyCoords()">
+                KOORDINATEN KOPIEREN 📋
+            </button>
+
+            <div style="font-size: 13px; color: #64748b; font-family: var(--font-mono);">
+                Panzerknacker IV: Mastermind Taschango1 &amp; Agent Versteckules // Geocache Safe Unlocked
+            </div>
+        </div>
+
+        <!-- ================================================================ -->
+        <!-- RESET CONFIRMATION MODAL                                         -->
+        <!-- ================================================================ -->
+        <div id="reset-modal" class="modal-overlay">
+            <div class="modal-dialog">
+                <div style="font-size: 32px; margin-bottom: 10px;">⚠️</div>
+                <h3 style="margin: 0 0 10px 0; color: #fff;">Spiel wirklich zurücksetzen?</h3>
+                <p style="font-size: 13px; color: #94a3b8; line-height: 1.5; margin: 0 0 15px 0;">
+                    Dein gesamter Spielfortschritt in Cookies und Speicher wird gelöscht. Du beginnst wieder bei Level 1.
+                </p>
+                <div class="modal-btns">
+                    <button class="action-btn" style="margin:0;" onclick="window.app.cancelFullReset()">ABBRECHEN</button>
+                    <button class="action-btn btn-red" style="margin:0;" onclick="window.app.confirmFullReset()">JA, RESET</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/audio.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/crypto.js"></script>
+    <script src="js/puzzles.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
