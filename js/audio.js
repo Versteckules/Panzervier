@@ -306,13 +306,13 @@ class SoundEngine {
 
         const audio = new Audio(`audio/funk_${levelNum}.mp3?v=7`);
         audio.crossOrigin = "anonymous";
-        audio.defaultPlaybackRate = 1.55;
-        audio.playbackRate = 1.55;
+        audio.defaultPlaybackRate = 1.24;
+        audio.playbackRate = 1.24;
         if ('preservesPitch' in audio) audio.preservesPitch = true;
         if ('mozPreservesPitch' in audio) audio.mozPreservesPitch = true;
         if ('webkitPreservesPitch' in audio) audio.webkitPreservesPitch = true;
         audio.addEventListener('loadedmetadata', () => {
-            audio.playbackRate = 1.55;
+            audio.playbackRate = 1.24;
         });
         this.radioAudio = audio;
 
